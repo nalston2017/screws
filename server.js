@@ -1,21 +1,44 @@
 // Dependencies
-var express = require("express");
-var mongojs = require("mongojs");
-var logger = require("morgan");
-// Require request and cheerio. This makes the scraping possible
-var request = require("request");
-var cheerio = require("cheerio");
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
+var logger = require('morgan');
+var mongoose = require('mongoose');
+var request = require('request');
+var cheerio = require('cheerio');
+var exphbs = require("express-handlebars");
+
 // Initialize Express
+var port = process.env.PORT || 3000;
 var app = express();
 
-// use morgan bodyparser app
-app.use(logger("dev"));
+// use morgan and bodyparser app
+app.use(logger('dev'));
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 
 // make public a static directory
 app.use(express.static("public"));
+
+
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+// Set mongoose to leverage built in JavaScript ES6 Promises
+// Connect to the Mongo DB
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI, {
+  useMongoClient: true
+});
+
+// show any mongoose errors
+db.on('error', function(err) {
+  console.log('Mongoose Error: ', err);
+});
+
+// once logged in to the db through mongoose, log a success message
+db.once('open', function() {
+  console.log('Mongoose connection successful.');
+});
 
 // Database configuration
 var databaseUrl = "scraper";
