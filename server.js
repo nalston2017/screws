@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var request = require('request');
 var cheerio = require('cheerio');
 var exphbs = require("express-handlebars");
-var Note = require("./models/Node.js");
+var Note = require("./models/Note.js");
 var Headline = require("./models/Headline.js");
 var htmlRouter = require("./controllers/headline.js");
 var articleRouter = require("./controllers/fetch.js");
@@ -31,8 +31,9 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI, {
-  useMongoClient: true
+  // useMongoClient: true
 });
+var db = mongoose.connection;
 
 // show any mongoose errors
 db.on('error', function(err) {

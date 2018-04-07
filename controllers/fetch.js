@@ -1,3 +1,7 @@
+var express = require("express");
+var request = require("request");
+var cheerio = require("cheerio");
+var router = express.Router();
 
 ////////////////////////////////////////////////////////
 ////////Route to get articles from NPR Archives/////////
